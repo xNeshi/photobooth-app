@@ -42,6 +42,39 @@
 
 # ========================= BACK END =========================
 
+#dependencies
+/backend/.phpunit.cache
+/backend/node_modules
+/backend/vendor
+
+/backend/public/build
+/backend/public/hot
+/backend/public/storage
+/backend/storage/app
+/backend/storage/framework
+/backend/storage/*.key
+/backend/storage/logs
+/backend/storage/pail
+
+/backend/bootstrap/cache/
+/backend/database
+/backend/resources/views
+/backend/.env
+/backend/.env.*
+/backend/.phpactor.json
+/backend/.phpunit.result.cache
+/backend/Homestead.json
+/backend/Homestead.yaml
+/backend/npm-debug.log
+/backend/yarn-error.log
+/backend/auth.json
+/backend/.fleet
+/backend/.idea
+/backend/.nova
+/backend/.vscode
+/backend/.zed
+
+
 # ========================= MYSQL =========================
 
 # ========================= NGINX =========================

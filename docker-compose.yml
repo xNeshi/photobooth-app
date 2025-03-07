@@ -1,0 +1,40 @@
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: photoboothdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: photoboothdb
+      DB_USERNAME: user
+      DB_PASSWORD: password
+    volumes:
+      - ./backend:/var/www
+    expose:
+      - "9000"
+
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - backend
+    volumes:
+      - ./backend:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:80"
+
+volumes:
+  mysql_data:
