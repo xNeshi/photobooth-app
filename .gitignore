@@ -55,10 +55,7 @@
 /backend/storage/*.key
 /backend/storage/logs
 /backend/storage/pail
-
-/backend/bootstrap/cache/
-/backend/database
-/backend/resources/views
+/backend/bootstrap/cache/*.php
 /backend/.env
 /backend/.env.*
 /backend/.phpactor.json
