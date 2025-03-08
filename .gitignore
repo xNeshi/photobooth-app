@@ -53,12 +53,6 @@
 /backend/public/build
 /backend/public/hot
 /backend/public/storage
-/backend/storage/app
-/backend/storage/framework
-/backend/storage/*.key
-/backend/storage/logs
-/backend/storage/pail
-/backend/bootstrap/cache/*.php
 /backend/.env
 /backend/.env.*
 /backend/.phpactor.json
