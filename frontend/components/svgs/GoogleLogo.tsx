@@ -1,4 +1,5 @@
 import { LogoProps } from "./Logo";
+
 const GoogleLogo = ({ ...props }: LogoProps) => {
   return (
     <svg
