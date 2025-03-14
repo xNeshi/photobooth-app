@@ -8,10 +8,10 @@ export default function Home() {
     <>
       <section className="flex items-center justify-center min-h-screen -mt-20">
         <div className="flex flex-col w-[260px] items-center mphone:w-[320px] lphone:w-[500px]">
-          <h1 className="text-5xl font-extrabold mphone:text-[62px] lphone:text-[80px]">
+          <h1 className="text-5xl font-extrabold mphone:text-[62px] lphone:text-[80px] select-none">
             InstaCuts
           </h1>
-          <h2 className="text-[16.5px] tracking-[.25em] mb-3 mphone:text-[20px] mphone:tracking-[.3em] lphone:text-[24px] lphone:tracking-[.35em]">
+          <h2 className="text-[16.5px] tracking-[.25em] mb-3 mphone:text-[20px] mphone:tracking-[.3em] lphone:text-[24px] lphone:tracking-[.35em] select-none">
             Online Photobooth
           </h2>
           <p className="text-[12px] text-gray-700 dark:text-gray-300 text-center italic mphone:text-[15px] lphone:text-[18px]">
