@@ -2,7 +2,6 @@
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:where(.dark, .dark *));
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme {
   --breakpoint-sphone: 320px;
@@ -16,16 +15,41 @@
   :root {
     --background: #f0e9e1;
     --text: #242323;
+    --hoverBg: #e0d7cc;
+    --activeBg: #d6c7b8;
   }
 
   .dark {
     --background: #292727;
     --text: #e3dada;
+    --hoverBg: #3a3a3a;
+    --activeBg: #252525;
   }
 
   body {
     background-color: var(--background);
     color: var(--text);
+  }
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0) rotate(0);
+    opacity: 0.025;
+  }
+  50% {
+    transform: translateY(-50px) rotate(10deg);
+    opacity: 0.075;
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+    opacity: 0.025;
+  }
+}
+
+@layer components {
+  .animate-floating {
+    @apply animate-[floating_5s_infinite_ease-in-out];
   }
 }
 
