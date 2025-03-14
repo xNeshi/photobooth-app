@@ -1,3 +1,6 @@
+import Navbar from "@/components/Navbar";
+import AnimatedBackground from "@/components/AnimatedBackground";
+
 type LayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
@@ -5,7 +8,11 @@ type LayoutProps = Readonly<{
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <main className="px-3">{children}</main>
+      <Navbar />
+      <main className="px-3">
+        <AnimatedBackground />
+        {children}
+      </main>
     </>
   );
 }
