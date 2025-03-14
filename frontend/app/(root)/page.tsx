@@ -1,9 +1,7 @@
-"use client";
-
-import { useTheme } from "next-themes";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { Mail, User } from "lucide-react";
+import SignInModal from "@/components/SignInModal";
 
 export default function Home() {
   return (
@@ -32,15 +30,7 @@ export default function Home() {
               <User className="tablet:size-6" />
               Continue As Guest
             </Link>
-            <Link
-              href="/login"
-              className={`${buttonVariants({
-                variant: "outline",
-              })} flex-1 tablet:text-[18px] p-2 tablet:p-5`}
-            >
-              <Mail className="tablet:size-6" />
-              Sign In / Login
-            </Link>
+            <SignInModal />
           </div>
         </div>
       </section>
