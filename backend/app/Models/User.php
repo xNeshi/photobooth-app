@@ -52,13 +52,5 @@ class User extends Authenticatable
     {
         return $this->avatar ? asset('storage/' . $this->avatar) : null;
     }
-
-
-
-    public function getAvatarUrlAttribute()
-    {
-        return $this->avatar ? asset('storage/' . $this->avatar) : null;
-    }
-
     
 }
