@@ -54,11 +54,9 @@ class User extends Authenticatable
     }
 
 
-
-    public function getAvatarUrlAttribute()
+    public function providers() 
     {
-        return $this->avatar ? asset('storage/' . $this->avatar) : null;
+        return $this->hasMany(OAuthProvider::class);
     }
-
     
 }
