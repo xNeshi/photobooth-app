@@ -1,80 +1,70 @@
-import axios, { AxiosHeaders } from "axios";
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { api } from "@/lib/utils";
+import { AxiosHeaders } from "axios";
+import Credentials from "next-auth/providers/credentials";
+import { api, sanctum } from "@/lib/utils";
+import NextAuth, { AuthError } from "next-auth";
+import { extractCookies } from "@/lib/utils";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    CredentialsProvider({
+    Credentials({
       name: "Email and Password",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "Your Email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) return null;
-
-        const res = await api.get("sanctum/csrf-cookie");
-
-        const setCookieHeader = (res.headers as AxiosHeaders)?.get(
-          "set-cookie"
-        );
-        const cookies =
-          typeof setCookieHeader === "string"
-            ? setCookieHeader.split(", ")
-            : [];
-
-        const xsrfToken = cookies
-          .find((cookie) => cookie.startsWith("XSRF-TOKEN"))
-          ?.split(";")[0]
-          .split("=")[1];
-        const sessionKey = cookies
-          .find((cookie) => cookie.startsWith("laravel_session"))
-          ?.split(";")[0]
-          .split("=")[1];
-
-        const data = {
-          email: credentials?.email,
-          password: credentials?.password,
-        };
-
-        const headers: { [key: string]: string } = {
-          Referrer: process.env.NEXT_PUBLIC_FRONTEND_URL!,
-          Cookie: `laravel_session=${sessionKey}`,
-          "Content-Type": "application/json",
-        };
-
-        if (xsrfToken) headers["X-XSRF-TOKEN"] = xsrfToken;
+        if (!credentials) null;
 
         try {
-          const response = await api.post("login", JSON.stringify(data), {
-            headers,
-          });
+          // Get CSRF cookie
+          const csrfResponse = await sanctum.get("sanctum/csrf-cookie");
 
-          if (response.status === 200) {
-            return response.data;
+          // Extract cookies
+          const { xsrfToken, sessionKey } = extractCookies(
+            csrfResponse.headers as AxiosHeaders
+          );
+
+          // Prepare login data
+          const loginData = {
+            email: credentials.email,
+            password: credentials.password,
+          };
+
+          // Set headers
+          const headers = {
+            Referer: process.env.NEXT_PUBLIC_FRONTEND_URL!,
+            Cookie: `laravel_session=${sessionKey}`,
+            "Content-Type": "application/json",
+            "X-XSRF-TOKEN": xsrfToken,
+          };
+
+          // Perform login request
+          const loginResponse = await api.post(
+            "login",
+            JSON.stringify(loginData),
+            { headers }
+          );
+
+          if (loginResponse.status === 200) {
+            return loginResponse.data;
           } else {
-            console.log("HTTP error! Status: ", response.status);
-            return { error: "Authenticaiton failed" };
+            console.error("HTTP error! Status:", loginResponse.status);
+            return { error: "Authentication failed" };
           }
         } catch (error) {
-          console.log("Error: ", error);
+          console.error("Error during authentication:", error);
         }
-
-        return null;
       },
     }),
   ],
   callbacks: {
     async jwt({ token, account, user }) {
       if (user && account) {
-        token.user = user;
-        token.accessToken = user.access_token;
+        token.user = user.data;
       }
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.access_token as string;
       session.user = token.user;
       return session;
     },

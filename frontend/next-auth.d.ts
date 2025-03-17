@@ -1,8 +1,7 @@
-import { JWT, Session, User } from "next-auth/next";
+import { JWT, Session, User } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
-    accessToken: string;
     user: {
       id: string;
       name: string;
@@ -12,9 +11,6 @@ declare module "next-auth" {
     } & Session["user"];
   }
   interface User {
-    access_token: string;
-  }
-  interface JWT {
-    access_token: string;
+    data: Session["user"];
   }
 }
