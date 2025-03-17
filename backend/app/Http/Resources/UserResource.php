@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class UserResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'emailVerifiedAt' => $this->email_verified_at,
-            // Use camelCase so it matches the naming convention in JavaScript
+            'avatar' => $this->avatar ? Storage::disk('spaces')->url($this->avatar) : null,
         ];
     }
 }

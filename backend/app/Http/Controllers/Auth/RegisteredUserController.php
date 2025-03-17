@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -30,7 +31,7 @@ class RegisteredUserController extends Controller
 
         $avatarPath = null;
         if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('user_avatars', 'public');
+            $avatarPath = $request->file('avatar')->store('avatars', 'spaces');
         }
 
         $user = User::create([
@@ -46,4 +47,6 @@ class RegisteredUserController extends Controller
 
         return UserResource::make(Auth::user());
     }
+
+
 }
