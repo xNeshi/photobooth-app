@@ -32,10 +32,12 @@ export const SignInModal = () => {
         </DialogHeader>
 
         <div className="flex flex-col gap-2 items-center justify-center">
-          <Button className="inline-flex !py-5 !px-4 gap-4 bg-[#EA4335] hover:bg-[#c53024] active:bg-[#a82a1e] justify-start items-center w-full text-[#e3dada] text-[14px] mphone:text-[17px] transition-all duration-200 ease-out">
-            <GoogleLogo className="size-6 mphone:size-7" />
-            Continue With Google
-          </Button>
+          <Link href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/login/google`} className="w-full">
+            <Button className="inline-flex !py-5 !px-4 gap-4 bg-[#EA4335] hover:bg-[#c53024] active:bg-[#a82a1e] justify-start items-center w-full text-[#e3dada] text-[14px] mphone:text-[17px] transition-all duration-200 ease-out">
+              <GoogleLogo className="size-6 mphone:size-7" />
+              Continue With Google
+            </Button>
+          </Link>
 
           <Button className="inline-flex !py-5 !px-4 gap-4 bg-[#2B3137] hover:bg-[#1f2227] active:bg-[#171a1d] justify-start items-center w-full text-[#e3dada] text-[14px] mphone:text-[17px] transition-all duration-200 ease-out">
             <GitHubLogo className="size-6 mphone:size-7 bg-white rounded-full pt-0.5" />
