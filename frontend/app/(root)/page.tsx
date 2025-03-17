@@ -1,9 +1,9 @@
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { Mail, User } from "lucide-react";
 import SignInModal from "@/components/SignInModal";
 
-export default function Home() {
+export default function Landing() {
   return (
     <>
       <section className="flex items-center justify-center min-h-screen -mt-20">
@@ -21,15 +21,17 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col tablet:flex-row gap-2 w-full p-2 py-6">
-            <Link
-              href="/login"
-              className={`${buttonVariants({
-                variant: "outline",
-              })} flex-1 tablet:text-[18px] p-2 tablet:p-5`}
+            <Button
+              variant={"outline"}
+              className="flex-1 tablet:text-[18px] p-2 tablet:p-5"
+              asChild
             >
-              <User className="tablet:size-6" />
-              Continue As Guest
-            </Link>
+              <Link href={"/home"}>
+                <User className="tablet:size-6" />
+                Continue As Guest
+              </Link>
+            </Button>
+
             <SignInModal />
           </div>
         </div>
