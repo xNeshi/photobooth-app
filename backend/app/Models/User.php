@@ -52,5 +52,11 @@ class User extends Authenticatable
     {
         return $this->avatar ? asset('storage/' . $this->avatar) : null;
     }
+
+
+    public function providers() 
+    {
+        return $this->hasMany(OAuthProvider::class);
+    }
     
 }
