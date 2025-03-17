@@ -2,7 +2,9 @@ import { auth } from "./app/auth";
 
 export default auth((req) => {
   const isAuth = !!req.auth;
-  const isLoginPage = req.nextUrl.pathname === "/";
+  const pathname = req.nextUrl.pathname;
+
+  const isLoginPage = pathname === "/" || pathname === "/login"; // Block both "/" and "/login"
 
   if (isAuth && isLoginPage) {
     return Response.redirect(new URL("/home", req.nextUrl.origin)); // Redirect to another page
