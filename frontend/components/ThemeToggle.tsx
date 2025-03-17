@@ -26,17 +26,17 @@ export const ThemeToggle = () => {
   return (
     <Button
       onClick={toggleThemeHandler}
-      className="rounded-full !p-0 !py-6 lphone:!pr-3 flex justify-center items-center gap-1"
+      className="rounded-full !p-0 !py-5 min-[550px]:!px-2 min-[550px]:!pr-4 flex justify-center items-center gap-1"
     >
       {theme === "light" ? (
         <>
           <Sun {...iconAttributes} />
-          <span className="hidden lphone:inline text-xl">Light Mode</span>
+          <span className="hidden min-[550px]:inline text-xl">Light Mode</span>
         </>
       ) : (
         <>
           <Moon {...iconAttributes} />
-          <span className="hidden lphone:inline text-xl">Dark Mode</span>
+          <span className="hidden min-[550px]:inline text-xl">Dark Mode</span>
         </>
       )}
     </Button>
