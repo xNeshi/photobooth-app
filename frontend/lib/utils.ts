@@ -58,3 +58,13 @@ export const extractCookies = (
 
   return { xsrfToken, sessionKey };
 };
+
+export function formatErrors(errors: any) {
+  const formattedErrors: Record<string, string> = {};
+  for (const key in errors) {
+    if (errors[key]) {
+      formattedErrors[key] = errors[key]?.join(". ") || ""; // Join errors with a period and space
+    }
+  }
+  return formattedErrors;
+}
