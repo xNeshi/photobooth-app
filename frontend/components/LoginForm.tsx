@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { buttonVariants } from "./ui/button";
-import Link from "next/link";
 import useRememberMe from "./hooks/useRememberMe";
 import handleLoginFormSubmit from "./handlers/handleLoginFormSubmit";
+import FormErrorMessage from "./FormErrorMessage";
+import FormInput from "./FormInput";
+import FormFooter from "./FormFooter";
 
 export type LoginFormType = {
   email: string;
@@ -27,17 +29,18 @@ export const LoginForm = () => {
   );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    handleLoginFormSubmit({
-      e,
-      setIsPending,
-      setError,
-      loginForm,
-      rememberMe,
-    });
+    handleLoginFormSubmit({ e, loginForm, setIsPending, setError });
   };
+
+  useEffect(() => {
+    return () => {
+      setIsPending(false);
+    };
+  }, []);
 
   return (
     <form
+      noValidate
       onSubmit={handleSubmit}
       className="flex flex-col w-full mphone:w-[375px] items-start justify-center bg-[var(--secondaryBg)] rounded-xl shadow-lg gap-5 p-6 py-8 pb-10"
     >
@@ -46,46 +49,36 @@ export const LoginForm = () => {
       </h1>
       <div className="flex flex-col w-full items-start justify-center gap-3">
         <div className="flex flex-col w-full">
-          {error?.credentials && (
-            <p className="text-red-500 text-[11px] mphone:text-[14px] mt-1">
-              {error.credentials}
-            </p>
-          )}
-          <input
-            id="email"
-            name="email"
-            value={loginForm.email}
-            onChange={(e) =>
-              setLoginForm({ ...loginForm, email: e.target.value })
-            }
-            placeholder="Email"
-            className="w-full border-b-[1px] px-3 py-1.5 rounded-md bg-[var(--background)]"
+          <span className={`${error?.credentials ? "-mt-5 mb-1" : ""}`}>
+            <FormErrorMessage
+              error={error}
+              errorFor="credentials"
+            />
+          </span>
+
+          <FormInput
+            type="email"
+            inputFor="email"
+            state={loginForm}
+            setState={setLoginForm}
           />
-          {error?.email && (
-            <div className="text-red-500 text-[11px] mphone:text-[14px] mt-1">
-              {error.email.split(". ").map((error, index) => (
-                <p key={index}>{error}</p>
-              ))}
-            </div>
-          )}
+          <FormErrorMessage
+            error={error}
+            errorFor="email"
+            isMultiLine={true}
+          />
         </div>
         <div className="flex flex-col w-full">
-          <input
+          <FormInput
             type="password"
-            id="password"
-            name="password"
-            value={loginForm.password}
-            onChange={(e) =>
-              setLoginForm({ ...loginForm, password: e.target.value })
-            }
-            placeholder="Password"
-            className="w-full border-b-[1px] px-3 py-1.5 rounded-md bg-[var(--background)]"
+            inputFor="password"
+            state={loginForm}
+            setState={setLoginForm}
           />
-          {error?.password && (
-            <p className="text-red-500 text-[11px] mphone:text-[14px] mt-1">
-              {error.password}
-            </p>
-          )}
+          <FormErrorMessage
+            error={error}
+            errorFor="password"
+          />
         </div>
 
         <label className="flex items-center gap-1.5 pl-2 text-[13px]">
@@ -105,15 +98,7 @@ export const LoginForm = () => {
         {isPending ? "Logging In..." : "Submit"}
       </button>
 
-      <span className="inline-flex text-[9px] mphone:text-[12px] -mt-1 gap-1 w-full justify-center">
-        Don't have an InstaCuts account?{" "}
-        <Link
-          href="/"
-          className="font-bold active:scale-95 transition-all duration-200 ease-out"
-        >
-          Register Now!
-        </Link>
-      </span>
+      <FormFooter />
     </form>
   );
 };
