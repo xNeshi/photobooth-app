@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useActionState, useEffect } from "react";
 import { buttonVariants } from "./ui/button";
-import useRememberMe from "./hooks/useRememberMe";
-import handleLoginFormSubmit from "./handlers/handleLoginFormSubmit";
+import { actionLoginForm } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 import FormErrorMessage from "./FormErrorMessage";
 import FormInput from "./FormInput";
 import FormFooter from "./FormFooter";
@@ -14,34 +14,21 @@ export type LoginFormType = {
 };
 
 export const LoginForm = () => {
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState<Record<string, string>>();
-
-  const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: "",
-  });
-
-  const { rememberMe, setRememberMe } = useRememberMe(
-    loginForm,
-    setLoginForm,
-    setIsPending
-  );
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    handleLoginFormSubmit({ e, loginForm, setIsPending, setError });
-  };
+  // const { rememberMe, setRememberMe } = useRememberMe(
+  //   loginForm,
+  //   setLoginForm,
+  // );
+  const router = useRouter();
+  const [state, action, isPending] = useActionState(actionLoginForm, undefined);
 
   useEffect(() => {
-    return () => {
-      setIsPending(false);
-    };
-  }, []);
+    if (state?.status === "SUCCESS") router.push("/home");
+  }, [state?.status]);
 
   return (
     <form
       noValidate
-      onSubmit={handleSubmit}
+      action={action}
       className="flex flex-col w-full mphone:w-[375px] items-start justify-center bg-[var(--secondaryBg)] rounded-xl shadow-lg gap-5 p-6 py-8 pb-10"
     >
       <h1 className="text-[23px] w-full text-center font-bold mphone:text-left">
@@ -49,9 +36,11 @@ export const LoginForm = () => {
       </h1>
       <div className="flex flex-col w-full items-start justify-center gap-3">
         <div className="flex flex-col w-full">
-          <span className={`${error?.credentials ? "-mt-5 mb-1" : ""}`}>
+          <span
+            className={`${state?.fieldErrors?.credentials ? "-mt-5 mb-1" : ""}`}
+          >
             <FormErrorMessage
-              error={error}
+              error={state?.fieldErrors}
               errorFor="credentials"
             />
           </span>
@@ -59,11 +48,10 @@ export const LoginForm = () => {
           <FormInput
             type="email"
             inputFor="email"
-            state={loginForm}
-            setState={setLoginForm}
+            fieldData={state?.fieldData.email}
           />
           <FormErrorMessage
-            error={error}
+            error={state?.fieldErrors}
             errorFor="email"
             isMultiLine={true}
           />
@@ -72,11 +60,10 @@ export const LoginForm = () => {
           <FormInput
             type="password"
             inputFor="password"
-            state={loginForm}
-            setState={setLoginForm}
+            fieldData={state?.fieldData.password}
           />
           <FormErrorMessage
-            error={error}
+            error={state?.fieldErrors}
             errorFor="password"
           />
         </div>
@@ -84,8 +71,8 @@ export const LoginForm = () => {
         <label className="flex items-center gap-1.5 pl-2 text-[13px]">
           <input
             type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
+            // checked={rememberMe}
+            // onChange={(e) => setRememberMe(e.target.checked)}
           />
           Remember Me
         </label>

@@ -2,16 +2,14 @@ type FormInputProps<T extends object> =
   React.ComponentPropsWithoutRef<"input"> & {
     type: string;
     inputFor: string;
-    state: T;
-    setState: React.Dispatch<React.SetStateAction<T>>;
+    fieldData: string | undefined;
     placeholder?: string;
   };
 
 export const FormInput = <T extends object>({
   type,
   inputFor,
-  state,
-  setState,
+  fieldData,
   placeholder,
   ...props
 }: FormInputProps<T>) => {
@@ -21,8 +19,7 @@ export const FormInput = <T extends object>({
       type={type}
       id={inputFor}
       name={inputFor}
-      value={state[inputFor as keyof T] as string}
-      onChange={(e) => setState({ ...state, [inputFor]: e.target.value })}
+      defaultValue={fieldData}
       placeholder={
         placeholder
           ? placeholder

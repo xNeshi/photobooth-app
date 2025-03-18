@@ -3,8 +3,7 @@ import LoginForm, { LoginFormType } from "../LoginForm";
 
 export const useRememberMe = (
   loginForm: LoginFormType,
-  setLoginForm: React.Dispatch<React.SetStateAction<LoginFormType>>,
-  setIsPending: React.Dispatch<React.SetStateAction<boolean>>
+  setLoginForm: React.Dispatch<React.SetStateAction<LoginFormType>>
 ) => {
   const [rememberMe, setRememberMe] = useState(false);
   const key = "rememberMeEmail";
