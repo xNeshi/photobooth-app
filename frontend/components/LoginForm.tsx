@@ -4,10 +4,7 @@ import React, { useState } from "react";
 import { buttonVariants } from "./ui/button";
 import Link from "next/link";
 import useRememberMe from "./hooks/useRememberMe";
-import { loginSchema } from "@/lib/validations";
-import { signIn } from "next-auth/react";
-import z from "zod";
-import { formatErrors } from "@/lib/utils";
+import handleLoginFormSubmit from "./handlers/handleLoginFormSubmit";
 
 export type LoginFormType = {
   email: string;
@@ -15,49 +12,33 @@ export type LoginFormType = {
 };
 
 export const LoginForm = () => {
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<Record<string, string>>();
+
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
   });
 
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState<Record<string, string>>();
-  const { rememberMe, setRememberMe } = useRememberMe(setLoginForm);
+  const { rememberMe, setRememberMe } = useRememberMe(
+    loginForm,
+    setLoginForm,
+    setIsPending
+  );
 
-  const handleLoginFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsPending(true);
-
-    try {
-      if (rememberMe) {
-        localStorage.setItem("rememberMeEmail", loginForm.email);
-      }
-
-      const formValues = {
-        email: loginForm.email,
-        password: loginForm.password,
-      };
-
-      await loginSchema.parseAsync(formValues);
-
-      await signIn("credentials", loginForm, { redirect: false });
-
-      setIsPending(false);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldErrors = error.flatten().fieldErrors;
-        const formattedErrors = formatErrors(fieldErrors);
-        setError(formattedErrors as unknown as Record<string, string>);
-      } else {
-        setError({ credentials: "Invalid Credentials. Try Again." });
-      }
-      setIsPending(false);
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    handleLoginFormSubmit({
+      e,
+      setIsPending,
+      setError,
+      loginForm,
+      rememberMe,
+    });
   };
 
   return (
     <form
-      onSubmit={handleLoginFormSubmit}
+      onSubmit={handleSubmit}
       className="flex flex-col w-full mphone:w-[375px] items-start justify-center bg-[var(--secondaryBg)] rounded-xl shadow-lg gap-5 p-6 py-8 pb-10"
     >
       <h1 className="text-[23px] w-full text-center font-bold mphone:text-left">
