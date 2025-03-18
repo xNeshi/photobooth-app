@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogOverlay,
   DialogTitle,
@@ -11,6 +12,7 @@ import { Mail } from "lucide-react";
 import GoogleLogo from "./svgs/GoogleLogo";
 import GitHubLogo from "./svgs/GithubLogo";
 import Link from "next/link";
+import FormFooter from "./FormFooter";
 
 export const SignInModal = () => {
   return (
@@ -62,15 +64,9 @@ export const SignInModal = () => {
             Continue With Email
           </Link>
 
-          <span className="inline-flex text-[9px] mphone:text-[12px] mt-2 gap-1">
-            Don't have an InstaCuts account?{" "}
-            <Link
-              href="/"
-              className="font-bold active:scale-95 transition-all duration-200 ease-out"
-            >
-              Register Now!
-            </Link>
-          </span>
+          <DialogFooter className="mt-2">
+            <FormFooter />
+          </DialogFooter>
         </div>
       </DialogContent>
     </Dialog>
