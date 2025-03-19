@@ -27,7 +27,7 @@ export const LoginForm = () => {
   });
 
   useEffect(() => {
-    if (state?.status === "SUCCESS") router.push("/home");
+    if (state?.status === "SUCCESS") router.replace("/home");
   }, [state?.status]);
 
   useEffect(() => {
