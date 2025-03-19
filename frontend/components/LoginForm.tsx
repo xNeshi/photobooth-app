@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useActionState, useEffect } from "react";
+import React, { useState, useActionState, useEffect, use } from "react";
 import { buttonVariants } from "./ui/button";
 import { actionLoginForm } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import FormErrorMessage from "./FormErrorMessage";
 import FormInput from "./FormInput";
 import FormFooter from "./FormFooter";
+import useRememberMe from "@/lib/hooks";
 
 export type LoginFormType = {
   email: string;
@@ -14,16 +15,24 @@ export type LoginFormType = {
 };
 
 export const LoginForm = () => {
-  // const { rememberMe, setRememberMe } = useRememberMe(
-  //   loginForm,
-  //   setLoginForm,
-  // );
   const router = useRouter();
-  const [state, action, isPending] = useActionState(actionLoginForm, undefined);
+  const rememberMeEmail = localStorage?.getItem("rememberMeEmail") || "";
+  const { rememberMe, setRememberMe, setUpdateEmail } = useRememberMe();
+
+  const [state, action, isPending] = useActionState(actionLoginForm, {
+    status: "",
+    error: "",
+    fieldErrors: {},
+    fieldData: { email: rememberMeEmail, password: "" },
+  });
 
   useEffect(() => {
     if (state?.status === "SUCCESS") router.push("/home");
   }, [state?.status]);
+
+  useEffect(() => {
+    if (state?.fieldData.email) setUpdateEmail(state?.fieldData.email);
+  }, [state?.fieldData.email]);
 
   return (
     <form
@@ -71,8 +80,8 @@ export const LoginForm = () => {
         <label className="flex items-center gap-1.5 pl-2 text-[13px]">
           <input
             type="checkbox"
-            // checked={rememberMe}
-            // onChange={(e) => setRememberMe(e.target.checked)}
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
           />
           Remember Me
         </label>
