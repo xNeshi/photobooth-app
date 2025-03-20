@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useActionState, useEffect, use } from "react";
+import React, { useActionState } from "react";
 import { buttonVariants } from "./ui/button";
 import { actionLoginForm } from "@/lib/actions";
 import FormErrorMessage from "./FormErrorMessage";
@@ -88,7 +88,7 @@ export const LoginForm = () => {
         {isPending ? "Logging In..." : "Submit"}
       </button>
 
-      <FormFooter />
+      <FormFooter footerFor="login" />
     </form>
   );
 };

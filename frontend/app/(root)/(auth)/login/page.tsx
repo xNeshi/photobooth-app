@@ -1,11 +1,10 @@
-import LoginForm from "@/components/LoginForm";
-import React from "react";
+import RegisterForm from "@/components/RegisterForm";
 
-const LoginPage = () => {
+export const LoginPage = () => {
   return (
     <>
       <section className="flex items-center justify-center min-h-screen -mt-20">
-        <LoginForm />
+        <RegisterForm />
       </section>
     </>
   );

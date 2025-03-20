@@ -6,6 +6,7 @@ type FormInputProps<T extends object> =
     type: string;
     inputFor: string;
     fieldData: string | undefined;
+    useEye?: boolean;
     placeholder?: string;
   };
 
@@ -14,6 +15,7 @@ export const FormInput = <T extends object>({
   inputFor,
   fieldData,
   placeholder,
+  useEye = true,
   ...props
 }: FormInputProps<T>) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +36,7 @@ export const FormInput = <T extends object>({
         }
         className="w-full border-b-[1px] px-3 py-1.5 rounded-md bg-[var(--background)]"
       />
-      {type === "password" && (
+      {type === "password" && useEye && (
         <div className="absolute right-0.5 top-1/2 pr-2 bg-[var(--background)] flex items-center justify-center rounded-r-lg -translate-y-1/2">
           <button
             onMouseDown={() => setShowPassword(true)} // Show password when holding
