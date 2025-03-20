@@ -8,7 +8,7 @@ type FormFooterProps = {
 export const FormFooter: React.FC<FormFooterProps> = ({ footerFor }) => {
   if (footerFor === "login") {
     return (
-      <span className="inline-flex text-[9px] mphone:text-[12px] -mt-1 gap-1 w-full justify-center">
+      <span className="inline-flex text-[10px] mphone:text-[12px] -mt-1 gap-1 w-full justify-center">
         Don't have an InstaCuts account?{" "}
         <Link
           href="/register"
@@ -20,7 +20,7 @@ export const FormFooter: React.FC<FormFooterProps> = ({ footerFor }) => {
     );
   } else if (footerFor === "register") {
     return (
-      <span className="inline-flex text-[9px] mphone:text-[12px] -mt-1 gap-1 w-full justify-center">
+      <span className="inline-flex text-[10px] mphone:text-[12px] -mt-1 gap-1 w-full justify-center">
         Already have an InstaCuts account? <SignInModal buttonText="Log In" />
       </span>
     );

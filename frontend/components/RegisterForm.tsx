@@ -3,10 +3,13 @@
 import React, { useActionState, useEffect } from "react";
 import { buttonVariants } from "./ui/button";
 import { actionRegisterForm } from "@/lib/actions";
-import { useRouter } from "next/navigation";
 import FormErrorMessage from "./FormErrorMessage";
 import FormInput from "./FormInput";
 import FormFooter from "./FormFooter";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import ToastSuccess from "./ToastSuccess";
+import { Check } from "lucide-react";
 
 export type RegisterFormType = {
   name: string;
@@ -16,15 +19,18 @@ export type RegisterFormType = {
 };
 
 export const RegisterForm = () => {
+  const router = useRouter();
   const [state, action, isPending] = useActionState(
     actionRegisterForm,
     undefined
   );
 
   useEffect(() => {
-    console.log(state?.status);
     if (state?.status === "SUCCESS") {
-      useRouter().replace("/home");
+      toast.custom(() => (
+        <ToastSuccess>Account Created Successfully!!</ToastSuccess>
+      ));
+      router.push("/login");
     }
   }, [state?.status]);
 

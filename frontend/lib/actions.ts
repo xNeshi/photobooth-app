@@ -61,8 +61,6 @@ export async function actionRegisterForm(
   prevState: unknown,
   formData: FormData
 ) {
-  let isSuccess;
-
   const formValues = {
     name: formData.get("name") as string,
     email: formData.get("email") as string,
@@ -100,7 +98,6 @@ export async function actionRegisterForm(
     );
 
     if (result.status === 200 || result.status === 201) {
-      isSuccess = true;
       return { status: "SUCCESS", error: "", fieldData: formValues };
     } else {
       return {
@@ -128,10 +125,6 @@ export async function actionRegisterForm(
         },
         fieldData: formValues,
       };
-    }
-  } finally {
-    if (isSuccess) {
-      redirect("/login");
     }
   }
 }
