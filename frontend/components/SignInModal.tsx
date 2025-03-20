@@ -14,18 +14,28 @@ import GitHubLogo from "./svgs/GithubLogo";
 import Link from "next/link";
 import FormFooter from "./FormFooter";
 
-export const SignInModal = () => {
+type SignInModalProps = {
+  buttonText?: string;
+};
+
+export const SignInModal = ({ buttonText }: SignInModalProps) => {
   return (
     <Dialog>
       <DialogOverlay className="fixed inset-0 bg-white/05 backdrop-blur-xs" />
       <DialogTrigger asChild>
-        <Button
-          className="flex-1 tablet:text-[18px] p-2 tablet:p-5"
-          variant="outline"
-        >
-          <Mail className="tablet:size-6" />
-          Sign In / Login
-        </Button>
+        {buttonText ? (
+          <p className="cursor-pointer font-bold active:scale-95 transition-all duration-200 ease-out">
+            {buttonText}
+          </p>
+        ) : (
+          <Button
+            className="flex-1 tablet:text-[18px] p-2 tablet:p-5"
+            variant="outline"
+          >
+            <Mail className="tablet:size-6" />
+            Sign In / Login
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="bg-[var(--background)] mphone:w-[375px] border-0">
         <DialogHeader>
@@ -65,7 +75,7 @@ export const SignInModal = () => {
           </Link>
 
           <DialogFooter className="mt-2">
-            <FormFooter />
+            <FormFooter footerFor="login" />
           </DialogFooter>
         </div>
       </DialogContent>
