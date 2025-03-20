@@ -37,7 +37,7 @@ export const SignInModal = ({ buttonText }: SignInModalProps) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="bg-[var(--background)] mphone:w-[375px] border-0">
+      <DialogContent className="bg-[var(--background)] mphone:w-[375px] border-0 py-8 pb-10">
         <DialogHeader>
           <DialogTitle className="text-[25px]">Sign In</DialogTitle>
         </DialogHeader>
@@ -74,7 +74,7 @@ export const SignInModal = ({ buttonText }: SignInModalProps) => {
             Continue With Email
           </Link>
 
-          <DialogFooter className="mt-2">
+          <DialogFooter className="mt-3">
             <FormFooter footerFor="login" />
           </DialogFooter>
         </div>
