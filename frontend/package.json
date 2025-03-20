@@ -22,7 +22,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "shadcn": "^2.4.0-canary.14",
-    "tailwind-merge": "^3.0.2"
+    "tailwind-merge": "^3.0.2",
+    "universal-cookie": "^8.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
