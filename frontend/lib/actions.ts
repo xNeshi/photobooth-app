@@ -4,9 +4,12 @@ import z from "zod";
 import { signIn } from "@/app/auth";
 import { loginSchema } from "./validations";
 import { formatErrors } from "./utils";
-import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { error } from "console";
 
 export async function actionLoginForm(prevState: unknown, formData: FormData) {
+  let isSuccess;
+
   const formValues = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -20,6 +23,7 @@ export async function actionLoginForm(prevState: unknown, formData: FormData) {
     });
 
     if (!result?.error) {
+      isSuccess = true;
       return { status: "SUCCESS", error: "", fieldData: formValues };
     } else {
       return {
@@ -45,6 +49,10 @@ export async function actionLoginForm(prevState: unknown, formData: FormData) {
         fieldErrors: { credentials: "Invalid Credentials. Try Again." },
         fieldData: formValues,
       };
+    }
+  } finally {
+    if (isSuccess) {
+      redirect("/home");
     }
   }
 }
