@@ -107,7 +107,7 @@ export const RegisterForm = () => {
         className={`${buttonVariants({ variant: "outline" })} w-full mt-2`}
         disabled={isPending}
       >
-        {isPending ? "Logging In..." : "Submit"}
+        {isPending ? "Processing..." : "Create Account"}
       </button>
 
       <FormFooter footerFor="register" />
