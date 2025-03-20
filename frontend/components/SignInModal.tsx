@@ -58,7 +58,7 @@ export const SignInModal = () => {
             className={`${buttonVariants({
               variant: "outline",
             })}inline-flex !py-4 mphone:!py-5 !px-4 gap-4 hover justify-start items-center w-full text-[14px] mphone:text-[17px]`}
-            href="/api/auth/signin"
+            href="/login"
           >
             <Mail className="size-6 mphone:size-7" />
             Continue With Email
