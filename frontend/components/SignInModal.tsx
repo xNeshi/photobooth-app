@@ -69,7 +69,7 @@ export const SignInModal = ({ buttonText }: SignInModalProps) => {
           <Link
             className={`${buttonVariants({
               variant: "outline",
-            })}inline-flex !py-5.5 !px-6 gap-3 mphone:gap-4 hover justify-center items-center w-full text-[14px] mphone:text-[17px]`}
+            })}inline-flex !py-5 !px-6 gap-3 mphone:gap-4 hover justify-center items-center w-full text-[14px] mphone:text-[17px]`}
             href="/login"
           >
             <Mail className="size-6 mphone:size-7" />

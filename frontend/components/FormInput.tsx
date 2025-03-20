@@ -34,7 +34,7 @@ export const FormInput = <T extends object>({
             ? placeholder
             : inputFor.charAt(0).toUpperCase() + inputFor.slice(1)
         }
-        className="w-full border-b-[1px] px-3 py-1.5 rounded-md bg-[var(--background)]"
+        className="w-full border-b-[1px] dark:border-b-gray-600 px-3 py-1.5 rounded-md bg-[var(--background)]"
       />
       {type === "password" && useEye && (
         <div className="absolute right-0.5 top-1/2 pr-2 bg-[var(--background)] flex items-center justify-center rounded-r-lg -translate-y-1/2">
