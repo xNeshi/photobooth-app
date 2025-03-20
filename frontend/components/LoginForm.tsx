@@ -3,11 +3,11 @@
 import React, { useState, useActionState, useEffect, use } from "react";
 import { buttonVariants } from "./ui/button";
 import { actionLoginForm } from "@/lib/actions";
-import { useRouter } from "next/navigation";
 import FormErrorMessage from "./FormErrorMessage";
 import FormInput from "./FormInput";
 import FormFooter from "./FormFooter";
 import useRememberMe from "@/lib/hooks";
+import Cookies from "universal-cookie";
 
 export type LoginFormType = {
   email: string;
@@ -15,8 +15,9 @@ export type LoginFormType = {
 };
 
 export const LoginForm = () => {
-  const router = useRouter();
-  const rememberMeEmail = localStorage?.getItem("rememberMeEmail") || "";
+  const cookies = new Cookies();
+
+  const rememberMeEmail = cookies.get("rememberMeEmail") || "";
   const { rememberMe, setRememberMe, setUpdateEmail } = useRememberMe();
 
   const [state, action, isPending] = useActionState(actionLoginForm, {
@@ -25,14 +26,6 @@ export const LoginForm = () => {
     fieldErrors: {},
     fieldData: { email: rememberMeEmail, password: "" },
   });
-
-  useEffect(() => {
-    if (state?.status === "SUCCESS") router.replace("/home");
-  }, [state?.status]);
-
-  useEffect(() => {
-    if (state?.fieldData.email) setUpdateEmail(state?.fieldData.email);
-  }, [state?.fieldData.email]);
 
   return (
     <form
@@ -57,6 +50,7 @@ export const LoginForm = () => {
           <FormInput
             type="email"
             inputFor="email"
+            onChange={(e) => setUpdateEmail(e.target.value)}
             fieldData={state?.fieldData.email}
           />
           <FormErrorMessage

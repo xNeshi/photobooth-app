@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
+import Cookies from "universal-cookie";
 
 export const useRememberMe = () => {
+  const cookies = new Cookies();
+
   const [updateEmail, setUpdateEmail] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const key = "rememberMeEmail";
 
   useEffect(() => {
-    if (!!localStorage.getItem(key)) {
+    if (!!cookies.get(key)) {
       setRememberMe(true);
     }
   }, []);
 
   useEffect(() => {
     if (rememberMe) {
-      localStorage.setItem(key, updateEmail);
+      console.log("updateEmail", updateEmail);
+      cookies.set(key, updateEmail);
     } else {
-      localStorage.removeItem(key);
+      cookies.remove(key);
     }
   }, [rememberMe, updateEmail]);
 
