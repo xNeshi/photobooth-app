@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { quickSand } from "@/public/fonts/fonts";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Photobooth",
@@ -61,6 +62,11 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        <Toaster
+          expand={true}
+          position="bottom-right"
+          richColors
+        />
       </body>
     </html>
   );

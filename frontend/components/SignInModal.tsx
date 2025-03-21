@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogOverlay,
   DialogTitle,
@@ -11,21 +12,32 @@ import { Mail } from "lucide-react";
 import GoogleLogo from "./svgs/GoogleLogo";
 import GitHubLogo from "./svgs/GithubLogo";
 import Link from "next/link";
+import FormFooter from "./FormFooter";
 
-export const SignInModal = () => {
+type SignInModalProps = {
+  buttonText?: string;
+};
+
+export const SignInModal = ({ buttonText }: SignInModalProps) => {
   return (
     <Dialog>
       <DialogOverlay className="fixed inset-0 bg-white/05 backdrop-blur-xs" />
       <DialogTrigger asChild>
-        <Button
-          className="flex-1 tablet:text-[18px] p-2 tablet:p-5"
-          variant="outline"
-        >
-          <Mail className="tablet:size-6" />
-          Sign In / Login
-        </Button>
+        {buttonText ? (
+          <p className="cursor-pointer font-bold active:scale-95 transition-all duration-200 ease-out">
+            {buttonText}
+          </p>
+        ) : (
+          <Button
+            className="flex-1 tablet:text-[18px] p-2 tablet:p-5"
+            variant="outline"
+          >
+            <Mail className="tablet:size-6" />
+            Sign In / Login
+          </Button>
+        )}
       </DialogTrigger>
-      <DialogContent className="bg-[var(--background)] mphone:w-[375px] border-0">
+      <DialogContent className="bg-[var(--background)] mphone:w-[375px] border-0 py-8 pb-10">
         <DialogHeader>
           <DialogTitle className="text-[25px]">Sign In</DialogTitle>
         </DialogHeader>
@@ -35,15 +47,17 @@ export const SignInModal = () => {
             href={`http://localhost:8000/login/google`}
             className="w-full"
           >
-            <Button className="inline-flex !py-5 !px-4 gap-4 bg-[#EA4335] hover:bg-[#c53024] active:bg-[#a82a1e] justify-start items-center w-full text-[#e3dada] text-[14px] mphone:text-[17px] transition-all duration-200 ease-out">
+            <Button className="inline-flex !py-5.5 !px-6 gap-3 mphone:gap-4 bg-[#EA4335] hover:bg-[#c53024] active:bg-[#a82a1e] justify-center items-center w-full text-[#e3dada] text-[14px] mphone:text-[17px] transition-all duration-200 ease-out">
               <GoogleLogo className="size-6 mphone:size-7" />
               Continue With Google
+              <div className=" mphone:p-2"></div>
             </Button>
           </Link>
 
-          <Button className="inline-flex !py-5 !px-4 gap-4 bg-[#2B3137] hover:bg-[#1f2227] active:bg-[#171a1d] justify-start items-center w-full text-[#e3dada] text-[14px] mphone:text-[17px] transition-all duration-200 ease-out">
+          <Button className="inline-flex !py-5.5 !px-6 gap-3 mphone:gap-4 bg-[#2B3137] hover:bg-[#1f2227] active:bg-[#171a1d] justify-center items-center w-full text-[#e3dada] text-[14px] mphone:text-[17px] transition-all duration-200 ease-out">
             <GitHubLogo className="size-6 mphone:size-7 bg-white rounded-full pt-0.5" />
             Continue With Github
+            <div className=" mphone:p-2"></div>
           </Button>
 
           <div className="flex items-center justify-center w-full gap-2 my-2">
@@ -55,22 +69,17 @@ export const SignInModal = () => {
           <Link
             className={`${buttonVariants({
               variant: "outline",
-            })}inline-flex !py-4 mphone:!py-5 !px-4 gap-4 hover justify-start items-center w-full text-[14px] mphone:text-[17px]`}
-            href="/api/auth/signin"
+            })}inline-flex !py-5 !px-6 gap-3 mphone:gap-4 hover justify-center items-center w-full text-[14px] mphone:text-[17px]`}
+            href="/login"
           >
             <Mail className="size-6 mphone:size-7" />
             Continue With Email
+            <div className="mphone:p-2"></div>
           </Link>
 
-          <span className="inline-flex text-[9px] mphone:text-[12px] mt-2 gap-1">
-            Don't have an InstaCuts account?{" "}
-            <Link
-              href="/"
-              className="font-bold active:scale-95 transition-all duration-200 ease-out"
-            >
-              Register Now!
-            </Link>
-          </span>
+          <DialogFooter className="mt-3">
+            <FormFooter footerFor="login" />
+          </DialogFooter>
         </div>
       </DialogContent>
     </Dialog>

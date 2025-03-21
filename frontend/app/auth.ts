@@ -48,15 +48,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (loginResponse.status === 200) {
             return loginResponse.data;
           } else {
-            console.error("HTTP error! Status:", loginResponse.status);
-            return { error: "Authentication failed" };
+            throw new Error("Login failed");
           }
         } catch (error) {
-          console.error("Error during authentication:", error);
+          throw new Error("Login failed");
         }
       },
     }),
   ],
+  pages: {
+    signIn: "/login",
+    signOut: "/",
+    error: "/login",
+  },
   callbacks: {
     async jwt({ token, account, user }) {
       if (user && account) {
