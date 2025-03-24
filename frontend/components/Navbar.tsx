@@ -7,7 +7,6 @@ import SignOutModal from "./SignOutModal";
 export const Navbar = async () => {
   const session = await auth();
   const isLoggedIn = session && session?.user;
-  console.log(session);
 
   return (
     <header className="px-2 py-4 pr-3">
