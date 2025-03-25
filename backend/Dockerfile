@@ -15,6 +15,10 @@ WORKDIR /var/www
 COPY . .
 
 # Install dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN if [ -d "vendor" ]; then \
+        composer update --no-dev --optimize-autoloader; \
+    else \
+        composer install --no-dev --optimize-autoloader; \
+    fi
 
 CMD ["php-fpm"]
