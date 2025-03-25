@@ -29,8 +29,6 @@ class OAuthProviderController extends Controller
         try {
             $socialite = Socialite::driver($provider->value)->user();
 
-            Log::info('OAuth success', ['email' => $socialite->getEmail(), 'name' => $socialite->getName()]);
-            
             $user = User::firstOrCreate([
                 'email' => $socialite->getEmail(),
             ], [
@@ -44,18 +42,10 @@ class OAuthProviderController extends Controller
                 'provider_id' => $socialite->getId(), 
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Authentication successful',
-                'user' => ['email' => $socialite->getEmail(), 'name' => $socialite->getName(), 'avatar' => $socialite->getAvatar()]
-            ]);
-            
-            // Once working, I'll uncomment this to redirect to frontend dashboard instead:
-            // Auth::login($user);
-            // return redirect(config('app.frontend_url'));
+            Auth::login($user);
+            return redirect(config('app.frontend_url'));
 
         } catch (\Exception $e) {
-            Log::error('OAuth error', ['message' => $e->getMessage()]);
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
