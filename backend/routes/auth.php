@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\OAuthProviderController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
@@ -15,6 +16,15 @@ Route::post('/register', [RegisteredUserController::class, 'store'])
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest')
     ->name('login');
+
+Route::middleware(['guest'])
+    ->prefix('login')
+    ->name('login.')
+    ->group(function () {
+        Route::get('{provider}', [OAuthProviderController::class, 'index'])->name('provider');
+        Route::get('{provider}/callback', [OAuthProviderController::class, 'store'])->name('provider.callback');
+    });
+
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
     ->middleware('guest')

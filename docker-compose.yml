@@ -46,17 +46,33 @@ services:
       - "8000:80"
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      target: dev
+    restart: always
+    command: npm run dev
     depends_on:
       - backend
-      - nginx
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-      - NEXT_PUBLIC_FRONTEND_URL=${NEXT_PUBLIC_FRONTEND_URL}
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - NODE_ENV=development
     env_file:
       - .env
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
 
 volumes:
   mysql_data:
